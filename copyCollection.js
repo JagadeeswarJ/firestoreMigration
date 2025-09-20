@@ -31,5 +31,5 @@ async function copyCollection(collectionName, destCollectionName = collectionNam
 
 // copyCollection('admins');
 // copyCollection('general');
-copyCollection('participants','cloudcraft-2025');
-copyCollection('technovista','technovista-2025');
+// copyCollection('participants','cloudcraft-2025');
+// copyCollection('technovista','technovista-2025');
