@@ -2,14 +2,31 @@ const { sourceDb, destDb } = require('./db');
 
 async function copyCollection(collectionName) {
   const snapshot = await sourceDb.collection(collectionName).get();
+  const docs = snapshot.docs;
+  const batchSize = 500;
 
-  for (const doc of snapshot.docs) {
-    const docData = doc.data();
-    await destDb.collection(collectionName).doc(doc.id).set(docData);
-    console.log(`Copied doc ${doc.id}`);
+  console.log(`Starting migration of ${docs.length} documents from ${collectionName}`);
+
+  for (let i = 0; i < docs.length; i += batchSize) {
+    const batch = destDb.batch();
+    const batchDocs = docs.slice(i, i + batchSize);
+
+    for (const doc of batchDocs) {
+      const docData = doc.data();
+      const destDocRef = destDb.collection(collectionName).doc(doc.id);
+      batch.set(destDocRef, docData);
+    }
+
+    try {
+      await batch.commit();
+      console.log(`Batch ${Math.floor(i / batchSize) + 1}: Copied ${batchDocs.length} documents`);
+    } catch (error) {
+      console.error(`Error in batch ${Math.floor(i / batchSize) + 1}:`, error);
+      throw error;
+    }
   }
 
-  console.log(`Copied ${snapshot.docs.length} documents`);
+  console.log(`Successfully copied ${docs.length} documents from ${collectionName}`);
 }
 
-copyCollection('query_results');
+copyCollection('technovista');

@@ -2,12 +2,12 @@ const admin = require('firebase-admin');
 
 // Source project
 const sourceApp = admin.initializeApp({
-  credential: admin.credential.cert(require('./keys/source-serviceAccountKey.json'))
+  credential: admin.credential.cert(require('./keys/kv-db.json'))
 }, 'source');
 
 // Destination project
 const destApp = admin.initializeApp({
-  credential: admin.credential.cert(require('./keys/destination-serviceAccountKey.json'))
+  credential: admin.credential.cert(require('./keys/vjdq-prod.json'))
 }, 'dest');
 
 const sourceDb = sourceApp.firestore();
