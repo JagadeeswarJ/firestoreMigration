@@ -1,20 +1,19 @@
 const admin = require('firebase-admin');
 
-const sourceCred = require('./keys/source-serviceAccountKey.json');
-const destinationCred = require('./keys/destination-serviceAccountKey.json');
-
+// Source project
 const sourceApp = admin.initializeApp({
-  credential: admin.credential.cert(sourceCred)
+  credential: admin.credential.cert(require('./keys/source-serviceAccountKey.json'))
 }, 'source');
 
-const destinationApp = admin.initializeApp({
-  credential: admin.credential.cert(destinationCred)
-}, 'destination');
+// Destination project
+const destApp = admin.initializeApp({
+  credential: admin.credential.cert(require('./keys/destination-serviceAccountKey.json'))
+}, 'dest');
 
-const sourceDb = admin.firestore(sourceApp);
-const destinationDb = admin.firestore(destinationApp);
+const sourceDb = sourceApp.firestore();
+const destDb = destApp.firestore();
 
 module.exports = {
   sourceDb,
-  destinationDb
+  destDb
 };

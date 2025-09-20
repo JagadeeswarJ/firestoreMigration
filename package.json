@@ -1,16 +1,22 @@
 {
   "name": "firestoremigration",
   "version": "1.0.0",
-  "description": "",
-  "main": "db.js",
+  "description": "Direct Firestore collection transfer between projects",
+  "main": "copyCollection.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "copy": "node copyCollection.js",
+    "test": "node testing.js"
   },
   "repository": {
     "type": "git",
     "url": "git+https://github.com/JagadeeswarJ/firestoreMigration.git"
   },
-  "keywords": [],
+  "keywords": [
+    "firestore",
+    "migration",
+    "firebase",
+    "admin-sdk"
+  ],
   "author": "",
   "license": "ISC",
   "bugs": {
