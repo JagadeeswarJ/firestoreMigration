@@ -1,11 +1,11 @@
 const { sourceDb, destDb } = require('./db');
 
-async function copyCollection(collectionName) {
+async function copyCollection(collectionName, destCollectionName = collectionName) {
   const snapshot = await sourceDb.collection(collectionName).get();
   const docs = snapshot.docs;
   const batchSize = 500;
 
-  console.log(`Starting migration of ${docs.length} documents from ${collectionName}`);
+  console.log(`Starting migration of ${docs.length} documents from ${collectionName} to ${destCollectionName}`);
 
   for (let i = 0; i < docs.length; i += batchSize) {
     const batch = destDb.batch();
@@ -13,7 +13,7 @@ async function copyCollection(collectionName) {
 
     for (const doc of batchDocs) {
       const docData = doc.data();
-      const destDocRef = destDb.collection(collectionName).doc(doc.id);
+      const destDocRef = destDb.collection(destCollectionName).doc(doc.id);
       batch.set(destDocRef, docData);
     }
 
@@ -26,7 +26,10 @@ async function copyCollection(collectionName) {
     }
   }
 
-  console.log(`Successfully copied ${docs.length} documents from ${collectionName}`);
+  console.log(`Successfully copied ${docs.length} documents from ${collectionName} to ${destCollectionName}`);
 }
 
-copyCollection('technovista');
+// copyCollection('admins');
+// copyCollection('general');
+copyCollection('participants','cloudcraft-2025');
+copyCollection('technovista','technovista-2025');
