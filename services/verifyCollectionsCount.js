@@ -1,4 +1,4 @@
-const { sourceDb, destDb } = require('./db');
+const { sourceDb, destDb } = require('../db');
 
 async function verifyCollections() {
   const sourceCollectionName = "participants"
